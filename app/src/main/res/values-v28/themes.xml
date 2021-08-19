@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="android:textColor">@color/grayish_violet</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <style name="label">
+        <item name="android:textSize">17sp</item>
+        <item name="android:lineHeight">23sp</item>
+        <item name="android:textColor">@color/grayish_violet</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+</resources>

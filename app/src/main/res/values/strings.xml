@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Shortly</string>
+    <string name="text_copied">COPIED!</string>
+    <string name="text_copy">COPY</string>
+    <string name="message_url_generated_successfully">Url created successfully</string>
+    <string name="shorten_a_link_here">Shorten a link here ...</string>
+    <string name="shorten_it">Shorten It!</string>
+    <string name="let_s_get_started">Let\'s get started!</string>
+    <string name="copy">Copy</string>
+</resources>

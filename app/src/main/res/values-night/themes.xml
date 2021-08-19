@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <style name="Theme.App1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorPrimaryVariant">@color/background_color</item>
+        <item name="colorOnPrimary">@color/background_color</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/red</item>
+        <item name="colorSecondaryVariant">@color/grayish_violet</item>
+        <item name="colorOnSecondary">@color/grayish_violet</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <!-- set status bar icon color light blackish -->
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

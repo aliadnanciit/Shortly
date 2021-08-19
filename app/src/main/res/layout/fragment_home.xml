@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/main_image"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_illustration"
+            app:layout_constraintDimensionRatio="h, 6:4.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo" />
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/let_s_get_started"
+            android:textAlignment="center"
+            android:textAppearance="@style/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_image" />
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="42dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="Paste your first link into the fields to shorten it"
+            android:textAppearance="@style/label"
+            app:layout_constraintEnd_toEndOf="@+id/main_image"
+            app:layout_constraintStart_toStartOf="@+id/main_image"
+            app:layout_constraintTop_toBottomOf="@id/title_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/history_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/shorten_url_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title_links"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Your Link History"
+            android:textAppearance="@style/label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_links"
+            tools:listitem="@layout/item_history" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/shorten_url_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/violet_dark"
+        android:paddingHorizontal="40dp"
+        android:layout_marginHorizontal="@dimen/horizontal_margin_shorten_view_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/url_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/background_rect"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="@string/shorten_a_link_here"
+            android:inputType="textPersonName"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:text=""
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_grey"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/button_shorten"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_shorten"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="40dp"
+            android:text="@string/shorten_it"
+            android:textAppearance="@style/button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/url_edittext" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_shorten" />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:visibility="gone"
+            android:textAppearance="@style/label"
+            android:textSize="12dp"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_shorten" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
