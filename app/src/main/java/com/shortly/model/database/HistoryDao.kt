@@ -1,5 +1,7 @@
 package com.shortly.model.database
 
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,6 +16,9 @@ interface HistoryDao {
 
     @Query("SELECT * FROM HistoryEntity ORDER BY id DESC")
     fun getHistory(): Flow<List<HistoryEntity>>
+
+    @Query("SELECT * FROM HistoryEntity ORDER BY id DESC")
+    fun getPagingHistory(): PagingSource<Int, HistoryEntity>
 
     @Query("DELETE FROM HistoryEntity WHERE id = :id")
     suspend fun delete(id: Int)

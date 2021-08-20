@@ -16,6 +16,8 @@ buildscript {
         runtime_ktx_version = "2.4.0-alpha02"
 
         room_version = "2.3.0"
+
+        pagingVersion = '3.0.0'
     }
 
     repositories {

@@ -2,6 +2,7 @@ package com.shortly.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shortly.model.datamodel.state.HistoryPagingViewState
 import com.shortly.model.datamodel.state.HistoryViewState
 import com.shortly.model.usecase.DeleteHistoryUseCase
 import com.shortly.model.usecase.GetHistoryUseCase
@@ -25,6 +26,16 @@ class HistoryViewModel @Inject constructor(
         viewModelScope.launch {
             getHistoryUseCase.getHistory().collect {
                 _historyStateFlow.value = HistoryViewState.Success(it)
+            }
+        }
+    }
+
+    private val _historyPagingStateFlow = MutableStateFlow<HistoryPagingViewState>(HistoryPagingViewState.NOTHING)
+    val historyPagingStateFlow: StateFlow<HistoryPagingViewState> = _historyPagingStateFlow
+    fun getPagingHistory() {
+        viewModelScope.launch {
+            getHistoryUseCase.getPagingHistory().collect {
+                _historyPagingStateFlow.value = HistoryPagingViewState.Success(it)
             }
         }
     }

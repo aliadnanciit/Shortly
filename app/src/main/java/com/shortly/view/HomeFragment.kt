@@ -1,6 +1,7 @@
 package com.shortly.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.shortly.R
-import com.shortly.model.common.MessageUtil
 import com.shortly.databinding.FragmentHomeBinding
+import com.shortly.model.common.MessageUtil
 import com.shortly.model.datamodel.HistoryModel
+import com.shortly.model.datamodel.state.HistoryPagingViewState
 import com.shortly.model.datamodel.state.HistoryViewState
 import com.shortly.model.datamodel.state.ShortenViewState
-import com.shortly.view.adapter.HistoryAdapter
-import com.shortly.view.listener.HistoryDeleteListener
 import com.shortly.model.usecase.CopyToClipboardUseCase
+import com.shortly.view.adapter.HistoryAdapter
+import com.shortly.view.adapter.HistoryPagingAdapter
+import com.shortly.view.listener.HistoryDeleteListener
 import com.shortly.viewmodel.HistoryViewModel
 import com.shortly.viewmodel.ShortenViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +38,7 @@ class HomeFragment : Fragment(), HistoryDeleteListener {
     private lateinit var binding: FragmentHomeBinding
 
     private lateinit var adapter: HistoryAdapter
+    private lateinit var pagingAdapter: HistoryPagingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,11 +53,17 @@ class HomeFragment : Fragment(), HistoryDeleteListener {
                 shortenViewModel.resetState()
             }
         }
-        adapter = HistoryAdapter(
+//        adapter = HistoryAdapter(
+//            historyDeleteListener = this,
+//            copyToClipboardUseCase = copyToClipboardUseCase
+//        )
+//        binding.recyclerView.adapter = adapter
+
+        pagingAdapter = HistoryPagingAdapter(
             historyDeleteListener = this,
             copyToClipboardUseCase = copyToClipboardUseCase
         )
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = pagingAdapter
 
         return binding.root
     }
@@ -69,7 +79,34 @@ class HomeFragment : Fragment(), HistoryDeleteListener {
 
         lifecycleScope.launch {
             historyViewModel.historyStateFlow.collectLatest {
-                processHistoryState(it)
+//                processHistoryState(it)
+            }
+        }
+        lifecycleScope.launch {
+            historyViewModel.historyPagingStateFlow.collectLatest {
+                when (it) {
+                    is HistoryPagingViewState.NOTHING -> {
+                    }
+                    is HistoryPagingViewState.Success -> {
+                        pagingAdapter.submitData(it.data)
+                    }
+                    else -> {
+                        binding.infoContainer.visibility = View.VISIBLE
+                        binding.historyContainer.visibility = View.GONE
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            pagingAdapter.loadStateFlow.collectLatest {
+                Log.i("loadStateFlow", "$it -> ${it.refresh}")
+                if(pagingAdapter.itemCount == 0) {
+                    binding.infoContainer.visibility = View.VISIBLE
+                    binding.historyContainer.visibility = View.GONE
+                } else {
+                    binding.infoContainer.visibility = View.GONE
+                    binding.historyContainer.visibility = View.VISIBLE
+                }
             }
         }
         loadHistory()
@@ -127,7 +164,7 @@ class HomeFragment : Fragment(), HistoryDeleteListener {
     }
 
     private fun loadHistory() {
-        historyViewModel.getHistory()
+        historyViewModel.getPagingHistory()
     }
 
     override fun onDelete(historyModel: HistoryModel) {

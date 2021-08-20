@@ -1,5 +1,9 @@
 package com.shortly.model.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.shortly.model.database.HistoryDao
 import com.shortly.model.database.HistoryEntity
 import com.shortly.model.datamodel.HistoryModel
@@ -27,6 +31,19 @@ class HistoryRepositoryImpl @Inject constructor(
                 .map { list ->
                     list.map { d ->
                         convert(d)
+                    }
+                }
+        }
+    }
+
+    override suspend fun getPagingHistory(): Flow<PagingData<HistoryModel>> {
+        return withContext(ioDispatcher) {
+            Pager(PagingConfig(5)) {
+                historyDao.getPagingHistory()
+            }.flow
+                .map {
+                    it.map {
+                        convert(it)
                     }
                 }
         }
