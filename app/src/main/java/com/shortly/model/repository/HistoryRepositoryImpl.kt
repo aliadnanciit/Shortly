@@ -1,12 +1,10 @@
 package com.shortly.model.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.*
 import com.shortly.model.database.HistoryDao
 import com.shortly.model.database.HistoryEntity
 import com.shortly.model.datamodel.HistoryModel
+import com.shortly.model.service.ShortlyDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -36,9 +34,13 @@ class HistoryRepositoryImpl @Inject constructor(
         }
     }
 
+    @ExperimentalPagingApi
     override suspend fun getPagingHistory(): Flow<PagingData<HistoryModel>> {
         return withContext(ioDispatcher) {
-            Pager(PagingConfig(5)) {
+            Pager(
+                config = PagingConfig(25)
+            , remoteMediator = ShortlyDataSource(historyDao, ioDispatcher)
+            ) {
                 historyDao.getPagingHistory()
             }.flow
                 .map {

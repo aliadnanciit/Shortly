@@ -30,7 +30,9 @@ class HistoryPagingAdapter(
         }
     }
     override fun onBindViewHolder(holder: HistoryPagingViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryPagingViewHolder {
